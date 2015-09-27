@@ -57,7 +57,7 @@ static void update_time() {
   if ((bluetooth_connection_service_peek() == true)) {
     strncpy(buffer_bluetooth, "", 100);
   } else {
-    strncpy(buffer_bluetooth, "x", 100);
+    strncpy(buffer_bluetooth, "!", 100);
   }
   
   
@@ -67,25 +67,24 @@ static void update_time() {
   static char buffer_battery [100];
   BatteryChargeState charge_state = battery_state_service_peek();
   if (charge_state.is_charging) {
-    snprintf(buffer_battery, sizeof(buffer_battery), "charging");
+    snprintf(buffer_battery, sizeof(buffer_battery), "%d%%^", charge_state.charge_percent);
   } else {
-    snprintf(buffer_battery, sizeof(buffer_battery), "%d%% charged", charge_state.charge_percent);
+    snprintf(buffer_battery, sizeof(buffer_battery), "%d%%", charge_state.charge_percent);
   }
   
   //http://developer.getpebble.com/blog/2013/07/24/Using-Pebble-System-Fonts/
   
   static char buffer_date [100];
-  strftime(buffer_date, sizeof("Saturday 31 September"), "%A %e %B", tick_time);
+  //strftime(buffer_date, sizeof("Saturday 31 September"), "%A %e %B", tick_time); // Sunday 27 September
+  strftime(buffer_date, sizeof("2015-12-31"), "%Y-%m-%d", tick_time); // 2015-12-31
   
   static char buffer_world [100];
-  time_t currentTime;
-  tm * ptm;
-  time ( &currentTime );
-  ptm = tick_time; //gmtime ( &rawtime );
+  time_t rawtime = time(NULL);
+  struct tm *ptm = gmtime ( &rawtime );
   ptm->tm_hour += 8;
   ptm->tm_min += 0;
   time_t shiftedTime = mktime( ptm );
-  tm * pShiftedTm = gmtime( &shiftedTime );
+  struct tm *pShiftedTm = gmtime( &shiftedTime );
   strftime(buffer_world, sizeof("00"), "%H", pShiftedTm);
   
   
@@ -202,11 +201,11 @@ static void update_time() {
       strncpy(buffer_timeintext_row_04, "", 100);
       strncpy(buffer_timeintext_row_05, "", 100);
     } else {
-      strncpy(buffer_timeintext, time_hour_word, 100); 
+      strncpy(buffer_timeintext, "", 100); 
       strncpy(buffer_timeintext_row_02, "", 100);
-      strncpy(buffer_timeintext_row_03, "uur", 100);
-      strncpy(buffer_timeintext_row_04, "", 100);
-      strncpy(buffer_timeintext_row_05, "", 100);
+      strncpy(buffer_timeintext_row_03, "", 100);
+      strncpy(buffer_timeintext_row_04, time_hour_word, 100);
+      strncpy(buffer_timeintext_row_05, "uur", 100);
     }
   } else if ((time_min >= 58 && time_min <= 62)) {
     // op het uur
@@ -351,18 +350,20 @@ static void main_window_load(Window *window) {
   //s_time_layer = text_layer_create(GRect(0, 52, 139, 50));
   s_time_layer = text_layer_create(GRect(0, 0, 144, 168));
   text_layer_set_background_color(s_time_layer, GColorClear);
-  text_layer_set_text_color(s_time_layer, GColorInchworm);
+  text_layer_set_text_color(s_time_layer, GColorGreen);
   text_layer_set_text(s_time_layer, "00:00:00");
-  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_20));
+  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_12));
   text_layer_set_font(s_time_layer, s_time_font);
-  text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
+  text_layer_set_text_alignment(s_time_layer, GTextAlignmentRight);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
+  // HIDE since not (yet) used
+  layer_set_hidden((Layer *) s_time_layer, true);
   
   // Add TimeInText layer ROW 01 (BIG)
   s_timeintext_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_32));
   s_timeintext_layer = text_layer_create(GRect(0,28,144,168));
   text_layer_set_background_color(s_timeintext_layer, GColorClear);
-  text_layer_set_text_color(s_timeintext_layer, GColorInchworm);
+  text_layer_set_text_color(s_timeintext_layer, GColorGreen);
   text_layer_set_text(s_timeintext_layer, "ROW 01");
   text_layer_set_font(s_timeintext_layer, s_timeintext_font);
   text_layer_set_text_alignment(s_timeintext_layer, GTextAlignmentCenter);
@@ -372,7 +373,7 @@ static void main_window_load(Window *window) {
   s_timeintext_row_02_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_20));
   s_timeintext_row_02_layer = text_layer_create(GRect(0,65,144,168));
   text_layer_set_background_color(s_timeintext_row_02_layer, GColorClear);
-  text_layer_set_text_color(s_timeintext_row_02_layer, GColorInchworm);
+  text_layer_set_text_color(s_timeintext_row_02_layer, GColorGreen);
   text_layer_set_text(s_timeintext_row_02_layer, "ROW 02");
   text_layer_set_font(s_timeintext_row_02_layer, s_timeintext_row_02_font);
   text_layer_set_text_alignment(s_timeintext_row_02_layer, GTextAlignmentCenter);
@@ -382,7 +383,7 @@ static void main_window_load(Window *window) {
   s_timeintext_row_03_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_32));
   s_timeintext_row_03_layer = text_layer_create(GRect(0,85,144,168));
   text_layer_set_background_color(s_timeintext_row_03_layer, GColorClear);
-  text_layer_set_text_color(s_timeintext_row_03_layer, GColorInchworm);
+  text_layer_set_text_color(s_timeintext_row_03_layer, GColorGreen);
   text_layer_set_text(s_timeintext_row_03_layer, "ROW 03");
   text_layer_set_font(s_timeintext_row_03_layer, s_timeintext_row_03_font);
   text_layer_set_text_alignment(s_timeintext_row_03_layer, GTextAlignmentCenter);
@@ -392,7 +393,7 @@ static void main_window_load(Window *window) {
   s_timeintext_row_04_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_32));
   s_timeintext_row_04_layer = text_layer_create(GRect(0,40,144,168));
   text_layer_set_background_color(s_timeintext_row_04_layer, GColorClear);
-  text_layer_set_text_color(s_timeintext_row_04_layer, GColorInchworm);
+  text_layer_set_text_color(s_timeintext_row_04_layer, GColorGreen);
   text_layer_set_text(s_timeintext_row_04_layer, "ROW 04");
   text_layer_set_font(s_timeintext_row_04_layer, s_timeintext_row_04_font);
   text_layer_set_text_alignment(s_timeintext_row_04_layer, GTextAlignmentCenter);
@@ -402,7 +403,7 @@ static void main_window_load(Window *window) {
   s_timeintext_row_05_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_32));
   s_timeintext_row_05_layer = text_layer_create(GRect(0,75,144,168));
   text_layer_set_background_color(s_timeintext_row_05_layer, GColorClear);
-  text_layer_set_text_color(s_timeintext_row_05_layer, GColorInchworm);
+  text_layer_set_text_color(s_timeintext_row_05_layer, GColorGreen);
   text_layer_set_text(s_timeintext_row_05_layer, "ROW 05");
   text_layer_set_font(s_timeintext_row_05_layer, s_timeintext_row_05_font);
   text_layer_set_text_alignment(s_timeintext_row_05_layer, GTextAlignmentCenter);
@@ -411,55 +412,57 @@ static void main_window_load(Window *window) {
   
   // Add bluetooth layer
   s_bluetooth_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_12));
-  s_bluetooth_layer = text_layer_create(GRect(0,115,144,168));
+  s_bluetooth_layer = text_layer_create(GRect(0,0,144,168));
   text_layer_set_background_color(s_bluetooth_layer, GColorClear);
-  text_layer_set_text_color(s_bluetooth_layer, GColorInchworm);
+  text_layer_set_text_color(s_bluetooth_layer, GColorGreen);
   text_layer_set_text(s_bluetooth_layer, "Bleutooth");
   text_layer_set_font(s_bluetooth_layer, s_bluetooth_font);
   text_layer_set_text_alignment(s_bluetooth_layer, GTextAlignmentLeft);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_bluetooth_layer));
   
+  // Add date layer
+  s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_12));
+  s_date_layer = text_layer_create(GRect(0,154,144,168));
+  text_layer_set_background_color(s_date_layer, GColorClear);
+  text_layer_set_text_color(s_date_layer, GColorGreen);
+  text_layer_set_text(s_date_layer, "Date");
+  text_layer_set_font(s_date_font, s_bluetooth_font);
+  text_layer_set_text_alignment(s_date_layer, GTextAlignmentCenter);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_date_layer));
+  
+  
   // Add battery layer
   s_battery_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_12));
-  s_battery_layer = text_layer_create(GRect(0,125,144,168));
+  s_battery_layer = text_layer_create(GRect(0,154,144,168));
   text_layer_set_background_color(s_battery_layer, GColorClear);
-  text_layer_set_text_color(s_battery_layer, GColorInchworm);
+  text_layer_set_text_color(s_battery_layer, GColorGreen);
   text_layer_set_text(s_battery_layer, "Battery");
   text_layer_set_font(s_battery_font, s_bluetooth_font);
   text_layer_set_text_alignment(s_battery_layer, GTextAlignmentLeft);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_battery_layer));
   
-  // Add date layer
-  s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_12));
-  s_date_layer = text_layer_create(GRect(0,135,144,168));
-  text_layer_set_background_color(s_date_layer, GColorClear);
-  text_layer_set_text_color(s_date_layer, GColorInchworm);
-  text_layer_set_text(s_date_layer, "Date");
-  text_layer_set_font(s_date_font, s_bluetooth_font);
-  text_layer_set_text_alignment(s_date_layer, GTextAlignmentLeft);
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_date_layer));
-  
-  
   // Add world layer
   s_world_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_12));
-  s_world_layer = text_layer_create(GRect(0,146,144,168));
+  s_world_layer = text_layer_create(GRect(0,154,144,168));
   text_layer_set_background_color(s_world_layer, GColorClear);
-  text_layer_set_text_color(s_world_layer, GColorInchworm);
+  text_layer_set_text_color(s_world_layer, GColorGreen);
   text_layer_set_text(s_world_layer, "World");
   text_layer_set_font(s_world_font, s_bluetooth_font);
-  text_layer_set_text_alignment(s_world_layer, GTextAlignmentLeft);
+  text_layer_set_text_alignment(s_world_layer, GTextAlignmentRight);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_world_layer));
     
   
   // Create temperature Layer
   s_weather_layer = text_layer_create(GRect(0, 115, 144, 25));
   text_layer_set_background_color(s_weather_layer, GColorClear);
-  text_layer_set_text_color(s_weather_layer, GColorInchworm);
+  text_layer_set_text_color(s_weather_layer, GColorGreen);
   text_layer_set_text_alignment(s_weather_layer, GTextAlignmentCenter);
   text_layer_set_text(s_weather_layer, "Loading...");
   s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_12));
   text_layer_set_font(s_weather_layer, s_weather_font);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_weather_layer));
+  // HIDE since not (yet) used
+  layer_set_hidden((Layer *) s_weather_layer, true);
   
   // Make sure the time is displayed from the start
   update_time();
@@ -502,9 +505,9 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_time();
   
   // Get weather update every 30 minutes
-  if(tick_time->tm_min % 30 == 0) {
+  /*if(tick_time->tm_min % 30 == 0) {
     process_temperature();
-  }
+  }*/
 }
 
 
@@ -570,10 +573,10 @@ static void init() {
   window_set_background_color(s_main_window, GColorBlack);  
   
   // Register with TickTimerService
-  //tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
-  tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
+  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  //tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
   
-  
+  /*
   // Register callbacks
   app_message_register_inbox_received(inbox_received_callback);
   app_message_register_inbox_dropped(inbox_dropped_callback);
@@ -584,7 +587,8 @@ static void init() {
   app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
   
   //Process temperature to avoid loading upon reload
-  //process_temperature();
+  process_temperature();
+  */
 }
 
 static void deinit() {
