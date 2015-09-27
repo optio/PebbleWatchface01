@@ -67,9 +67,9 @@ static void update_time() {
   static char buffer_battery [100];
   BatteryChargeState charge_state = battery_state_service_peek();
   if (charge_state.is_charging) {
-    snprintf(buffer_battery, sizeof(buffer_battery), "%d%%^", charge_state.charge_percent);
+    snprintf(buffer_battery, sizeof(buffer_battery), " %d%%^", charge_state.charge_percent);
   } else {
-    snprintf(buffer_battery, sizeof(buffer_battery), "%d%%", charge_state.charge_percent);
+    snprintf(buffer_battery, sizeof(buffer_battery), " %d%%", charge_state.charge_percent);
   }
   
   //http://developer.getpebble.com/blog/2013/07/24/Using-Pebble-System-Fonts/
@@ -81,11 +81,11 @@ static void update_time() {
   static char buffer_world [100];
   time_t rawtime = time(NULL);
   struct tm *ptm = gmtime ( &rawtime );
-  ptm->tm_hour += 8;
+  ptm->tm_hour += 8; // PH = +8 (depends on DLS) 
   ptm->tm_min += 0;
   time_t shiftedTime = mktime( ptm );
   struct tm *pShiftedTm = gmtime( &shiftedTime );
-  strftime(buffer_world, sizeof("00"), "%H", pShiftedTm);
+  strftime(buffer_world, sizeof("00"), "%H ", pShiftedTm);
   
   
 
