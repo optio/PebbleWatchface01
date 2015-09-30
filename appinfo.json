@@ -13,31 +13,33 @@
     "resources": {
         "media": [
             {
-                "file": "images/background.png",
-                "name": "IMAGE_BACKGROUND",
-                "type": "png"
-            },
-            {
-                "file": "fonts/perfect-dos-vga.ttf",
-                "name": "FONT_PERFECT_DOS_12",
+                "file": "fonts/SourceSansPro-Black.otf",
+                "name": "FONT_MIJNE_50",
                 "type": "font"
             },
             {
-                "compatibility": "2.7",
-                "file": "fonts/perfect-dos-vga.ttf",
-                "name": "FONT_PERFECT_DOS_20",
+                "file": "fonts/SourceSansPro-Black.otf",
+                "name": "FONT_MIJNE_32",
                 "type": "font"
             },
             {
-                "compatibility": "2.7",
-                "file": "fonts/perfect-dos-vga.ttf",
-                "name": "FONT_PERFECT_DOS_48",
+                "file": "fonts/SourceSansPro-Black.otf",
+                "name": "FONT_MIJNE_20",
                 "type": "font"
             },
             {
-                "compatibility": "2.7",
-                "file": "fonts/perfect-dos-vga.ttf",
-                "name": "FONT_PERFECT_DOS_32",
+                "file": "fonts/SourceSansPro-Black.otf",
+                "name": "FONT_MIJNE_12",
+                "type": "font"
+            },
+            {
+                "file": "fonts/SourceSansPro-Black.otf",
+                "name": "FONT_MIJNE_44",
+                "type": "font"
+            },
+            {
+                "file": "fonts/SourceSansPro-Black.otf",
+                "name": "FONT_MIJNE_38",
                 "type": "font"
             }
         ]

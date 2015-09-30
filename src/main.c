@@ -5,7 +5,7 @@
   
 static Window *s_main_window;
 static TextLayer *s_time_layer;
-static TextLayer *s_timeintext_layer;
+static TextLayer *s_timeintext_row_01_layer;
 static TextLayer *s_timeintext_row_02_layer;
 static TextLayer *s_timeintext_row_03_layer;
 static TextLayer *s_timeintext_row_04_layer;
@@ -27,6 +27,14 @@ static GFont s_battery_font;
 static GFont s_date_font;
 static GFont s_world_font;
 static GFont s_weather_font;
+
+static GFont FONT_12;
+static GFont FONT_20;
+static GFont FONT_32;
+static GFont FONT_38;
+static GFont FONT_44;
+static GFont FONT_50;
+  
 
 static BitmapLayer *s_background_layer;
 static GBitmap *s_background_bitmap;
@@ -85,7 +93,7 @@ static void update_time() {
   ptm->tm_min += 0;
   time_t shiftedTime = mktime( ptm );
   struct tm *pShiftedTm = gmtime( &shiftedTime );
-  strftime(buffer_world, sizeof("00"), "%H ", pShiftedTm);
+  strftime(buffer_world, sizeof("00 "), "%H ", pShiftedTm);
   
   
 
@@ -200,12 +208,22 @@ static void update_time() {
       strncpy(buffer_timeintext_row_03, "", 100);
       strncpy(buffer_timeintext_row_04, "", 100);
       strncpy(buffer_timeintext_row_05, "", 100);
+      text_layer_set_font(s_timeintext_row_01_layer, FONT_44);
+      text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+      text_layer_set_font(s_timeintext_row_03_layer, FONT_44);
+      text_layer_set_font(s_timeintext_row_04_layer, FONT_44);
+      text_layer_set_font(s_timeintext_row_05_layer, FONT_44);
     } else {
       strncpy(buffer_timeintext, "", 100); 
       strncpy(buffer_timeintext_row_02, "", 100);
       strncpy(buffer_timeintext_row_03, "", 100);
       strncpy(buffer_timeintext_row_04, time_hour_word, 100);
       strncpy(buffer_timeintext_row_05, "uur", 100);
+      text_layer_set_font(s_timeintext_row_01_layer, FONT_44);
+      text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+      text_layer_set_font(s_timeintext_row_03_layer, FONT_44);
+      text_layer_set_font(s_timeintext_row_04_layer, FONT_50);
+      text_layer_set_font(s_timeintext_row_05_layer, FONT_50);
     }
   } else if ((time_min >= 58 && time_min <= 62)) {
     // op het uur
@@ -215,100 +233,210 @@ static void update_time() {
       strncpy(buffer_timeintext_row_03, "", 100);
       strncpy(buffer_timeintext_row_04, "", 100);
       strncpy(buffer_timeintext_row_05, "", 100);
+      text_layer_set_font(s_timeintext_row_01_layer, FONT_50);
+      text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+      text_layer_set_font(s_timeintext_row_03_layer, FONT_50);
+      text_layer_set_font(s_timeintext_row_04_layer, FONT_44);
+      text_layer_set_font(s_timeintext_row_05_layer, FONT_44);
     } else {
       strncpy(buffer_timeintext, "", 100); 
       strncpy(buffer_timeintext_row_02, "", 100);
       strncpy(buffer_timeintext_row_03, "", 100);
       strncpy(buffer_timeintext_row_04, time_hour_word, 100);
       strncpy(buffer_timeintext_row_05, "uur", 100);
+      text_layer_set_font(s_timeintext_row_01_layer, FONT_44);
+      text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+      text_layer_set_font(s_timeintext_row_03_layer, FONT_44);
+      text_layer_set_font(s_timeintext_row_04_layer, FONT_50);
+      text_layer_set_font(s_timeintext_row_05_layer, FONT_50);
     }
   } else if ((time_min >= 3 && time_min <= 7)) {
     // 5 over
     strncpy(buffer_timeintext, "vijf", 100);
     strncpy(buffer_timeintext_row_02, "over", 100);
     strncpy(buffer_timeintext_row_03, time_hour_word, 100);
-      strncpy(buffer_timeintext_row_04, "", 100);
-      strncpy(buffer_timeintext_row_05, "", 100);
+    strncpy(buffer_timeintext_row_04, "", 100);
+    strncpy(buffer_timeintext_row_05, "", 100);
+    text_layer_set_font(s_timeintext_row_01_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_03_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_04_layer, FONT_44);
+    text_layer_set_font(s_timeintext_row_05_layer, FONT_44);
   } else if ((time_min >= 8 && time_min <= 12)) {
     // 10 over
     strncpy(buffer_timeintext, "tien", 100);
     strncpy(buffer_timeintext_row_02, "over", 100);
     strncpy(buffer_timeintext_row_03, time_hour_word, 100);
-      strncpy(buffer_timeintext_row_04, "", 100);
-      strncpy(buffer_timeintext_row_05, "", 100);
+    strncpy(buffer_timeintext_row_04, "", 100);
+    strncpy(buffer_timeintext_row_05, "", 100);
+    text_layer_set_font(s_timeintext_row_01_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_03_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_04_layer, FONT_44);
+    text_layer_set_font(s_timeintext_row_05_layer, FONT_44);
   } else if ((time_min >= 13 && time_min <= 17)) {
     // kwart over
     strncpy(buffer_timeintext, "kwart", 100);
     strncpy(buffer_timeintext_row_02, "over", 100);
     strncpy(buffer_timeintext_row_03, time_hour_word, 100);
-      strncpy(buffer_timeintext_row_04, "", 100);
-      strncpy(buffer_timeintext_row_05, "", 100);    
+    strncpy(buffer_timeintext_row_04, "", 100);
+    strncpy(buffer_timeintext_row_05, "", 100);
+    text_layer_set_font(s_timeintext_row_01_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_03_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_04_layer, FONT_44);
+    text_layer_set_font(s_timeintext_row_05_layer, FONT_44);
   } else if ((time_min >= 18 && time_min <= 22)) {
     // 20 over
     strncpy(buffer_timeintext, "twintig", 100);
     strncpy(buffer_timeintext_row_02, "over", 100);
     strncpy(buffer_timeintext_row_03, time_hour_word, 100);
-      strncpy(buffer_timeintext_row_04, "", 100);
-      strncpy(buffer_timeintext_row_05, "", 100);    
+    strncpy(buffer_timeintext_row_04, "", 100);
+    strncpy(buffer_timeintext_row_05, "", 100); 
+    text_layer_set_font(s_timeintext_row_01_layer, FONT_38);
+    text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_03_layer, FONT_44);
+    text_layer_set_font(s_timeintext_row_04_layer, FONT_44);
+    text_layer_set_font(s_timeintext_row_05_layer, FONT_44);
   } else if ((time_min >= 23 && time_min <= 27)) {
     // 5 voor half
     strncpy(buffer_timeintext, "vijf", 100);
     strncpy(buffer_timeintext_row_02, "voor half", 100);
     strncpy(buffer_timeintext_row_03, time_hour_next_word, 100);
-      strncpy(buffer_timeintext_row_04, "", 100);
-      strncpy(buffer_timeintext_row_05, "", 100);
+    strncpy(buffer_timeintext_row_04, "", 100);
+    strncpy(buffer_timeintext_row_05, "", 100);
+    text_layer_set_font(s_timeintext_row_01_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_03_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_04_layer, FONT_44);
+    text_layer_set_font(s_timeintext_row_05_layer, FONT_44);
   } else if ((time_min >= 28 && time_min <= 32)) {
     // half
     strncpy(buffer_timeintext, "", 100);
     strncpy(buffer_timeintext_row_02, "", 100);
     strncpy(buffer_timeintext_row_03, "", 100);
-      strncpy(buffer_timeintext_row_04, "half", 100);
-      strncpy(buffer_timeintext_row_05, time_hour_next_word, 100);
+    strncpy(buffer_timeintext_row_04, "half", 100);
+    strncpy(buffer_timeintext_row_05, time_hour_next_word, 100);
+    text_layer_set_font(s_timeintext_row_01_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_03_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_04_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_05_layer, FONT_50);
   } else if ((time_min >= 33 && time_min <= 37)) {
     // 5 over half
     strncpy(buffer_timeintext, "vijf", 100);
     strncpy(buffer_timeintext_row_02, "over half", 100);
     strncpy(buffer_timeintext_row_03, time_hour_next_word, 100);
-      strncpy(buffer_timeintext_row_04, "", 100);
-      strncpy(buffer_timeintext_row_05, "", 100);
+    strncpy(buffer_timeintext_row_04, "", 100);
+    strncpy(buffer_timeintext_row_05, "", 100);
+    text_layer_set_font(s_timeintext_row_01_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_03_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_04_layer, FONT_44);
+    text_layer_set_font(s_timeintext_row_05_layer, FONT_44);
   }  else if ((time_min >= 38 && time_min <= 42)) {
     // 20 voor
     strncpy(buffer_timeintext, "twintig", 100);
     strncpy(buffer_timeintext_row_02, "voor", 100);
     strncpy(buffer_timeintext_row_03, time_hour_next_word, 100);
-      strncpy(buffer_timeintext_row_04, "", 100);
-      strncpy(buffer_timeintext_row_05, "", 100);
+    strncpy(buffer_timeintext_row_04, "", 100);
+    strncpy(buffer_timeintext_row_05, "", 100);
+    text_layer_set_font(s_timeintext_row_01_layer, FONT_38);
+    text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_03_layer, FONT_44);
+    text_layer_set_font(s_timeintext_row_04_layer, FONT_44);
+    text_layer_set_font(s_timeintext_row_05_layer, FONT_44);
   } else if ((time_min >= 43 && time_min <= 47)) {
     // kwart voor
     strncpy(buffer_timeintext, "kwart", 100);
     strncpy(buffer_timeintext_row_02, "voor", 100);
     strncpy(buffer_timeintext_row_03, time_hour_next_word, 100);
+    strncpy(buffer_timeintext_row_04, "", 100);
+    strncpy(buffer_timeintext_row_05, "", 100);
+    text_layer_set_font(s_timeintext_row_01_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_03_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_04_layer, FONT_44);
+    text_layer_set_font(s_timeintext_row_05_layer, FONT_44);
   } else if ((time_min >= 48 && time_min <= 52)) {
     // 10 voor
     strncpy(buffer_timeintext, "tien", 100);
     strncpy(buffer_timeintext_row_02, "voor", 100);
     strncpy(buffer_timeintext_row_03, time_hour_next_word, 100);
-      strncpy(buffer_timeintext_row_04, "", 100);
-      strncpy(buffer_timeintext_row_05, "", 100);
+    strncpy(buffer_timeintext_row_04, "", 100);
+    strncpy(buffer_timeintext_row_05, "", 100);
+    text_layer_set_font(s_timeintext_row_01_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_03_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_04_layer, FONT_44);
+    text_layer_set_font(s_timeintext_row_05_layer, FONT_44);
   } else if ((time_min >= 53 && time_min <= 57)) {
     // 5 voor
     strncpy(buffer_timeintext, "vijf", 100);
     strncpy(buffer_timeintext_row_02, "voor", 100);
     strncpy(buffer_timeintext_row_03, time_hour_next_word, 100);
-      strncpy(buffer_timeintext_row_04, "", 100);
-      strncpy(buffer_timeintext_row_05, "", 100);
+    strncpy(buffer_timeintext_row_04, "", 100);
+    strncpy(buffer_timeintext_row_05, "", 100);
+    text_layer_set_font(s_timeintext_row_01_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_03_layer, FONT_50);
+    text_layer_set_font(s_timeintext_row_04_layer, FONT_44);
+    text_layer_set_font(s_timeintext_row_05_layer, FONT_44);
   } else {
     // error
     strncpy(buffer_timeintext, "error_row_01", 100);
     strncpy(buffer_timeintext_row_02, "error_row_02", 100);
     strncpy(buffer_timeintext_row_03, "error_row_03", 100);
-      strncpy(buffer_timeintext_row_04, "error_row_04", 100);
-      strncpy(buffer_timeintext_row_05, "error_row_05", 100);
-    //snprintf(buffer_timeintext, sizeof(buffer_timeintext), "%d", tick_time->tm_min);
-    //snprintf(buffer_timeintext, sizeof(buffer_timeintext), "%d", time_min);
+    strncpy(buffer_timeintext_row_04, "error_row_04", 100);
+    strncpy(buffer_timeintext_row_05, "error_row_05", 100);
+    text_layer_set_font(s_timeintext_row_01_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_03_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_04_layer, FONT_20);
+    text_layer_set_font(s_timeintext_row_05_layer, FONT_20);
   }
   
-  text_layer_set_text(s_timeintext_layer, buffer_timeintext);
+  if ((1 > 2)) {
+    //
+  } else if ((time_min == 58 || time_min == 3 || time_min == 8 || time_min == 13 || time_min == 18 || time_min == 23 || time_min == 28 || time_min == 33 || time_min == 38 || time_min == 43 || time_min == 48 || time_min == 53 )) {
+    // 2 voor
+    text_layer_set_text_color(s_timeintext_row_01_layer, GColorYellow);
+    text_layer_set_text_color(s_timeintext_row_02_layer, GColorYellow);
+    text_layer_set_text_color(s_timeintext_row_03_layer, GColorYellow);
+    text_layer_set_text_color(s_timeintext_row_04_layer, GColorYellow);
+    text_layer_set_text_color(s_timeintext_row_05_layer, GColorYellow);
+  } else if ((time_min == 59 || time_min == 4 || time_min == 9 || time_min == 14 || time_min == 19 || time_min == 24 || time_min == 29 || time_min == 34 || time_min == 39 || time_min == 44 || time_min == 49 || time_min == 54 )) {
+    // 1 voor
+    text_layer_set_text_color(s_timeintext_row_01_layer, GColorVividCerulean);
+    text_layer_set_text_color(s_timeintext_row_02_layer, GColorVividCerulean);
+    text_layer_set_text_color(s_timeintext_row_03_layer, GColorVividCerulean);
+    text_layer_set_text_color(s_timeintext_row_04_layer, GColorVividCerulean);
+    text_layer_set_text_color(s_timeintext_row_05_layer, GColorVividCerulean);
+  } else if ((time_min == 0 || time_min == 5 || time_min == 10 || time_min == 15 || time_min == 20 || time_min == 25 || time_min == 30 || time_min == 35 || time_min == 40 || time_min == 45 || time_min == 50 || time_min == 55 )) {
+    // op het uur
+    text_layer_set_text_color(s_timeintext_row_01_layer, GColorGreen);
+    text_layer_set_text_color(s_timeintext_row_02_layer, GColorGreen);
+    text_layer_set_text_color(s_timeintext_row_03_layer, GColorGreen);
+    text_layer_set_text_color(s_timeintext_row_04_layer, GColorGreen);
+    text_layer_set_text_color(s_timeintext_row_05_layer, GColorGreen);
+  } else if ((time_min == 1 || time_min == 6 || time_min == 11 || time_min == 16 || time_min == 21 || time_min == 26 || time_min == 31 || time_min == 36 || time_min == 41 || time_min == 46 || time_min == 51 || time_min == 56 )) {
+    // 1 na
+    text_layer_set_text_color(s_timeintext_row_01_layer, GColorVividCerulean);
+    text_layer_set_text_color(s_timeintext_row_02_layer, GColorVividCerulean);
+    text_layer_set_text_color(s_timeintext_row_03_layer, GColorVividCerulean);
+    text_layer_set_text_color(s_timeintext_row_04_layer, GColorVividCerulean);
+    text_layer_set_text_color(s_timeintext_row_05_layer, GColorVividCerulean);
+  } else if ((time_min == 2 || time_min == 7 || time_min == 12 || time_min == 17 || time_min == 22 || time_min == 27 || time_min == 32 || time_min == 37 || time_min == 42 || time_min == 47 || time_min == 52 || time_min == 57 )) {
+    // 2 na
+    text_layer_set_text_color(s_timeintext_row_01_layer, GColorRed);
+    text_layer_set_text_color(s_timeintext_row_02_layer, GColorRed);
+    text_layer_set_text_color(s_timeintext_row_03_layer, GColorRed);
+    text_layer_set_text_color(s_timeintext_row_04_layer, GColorRed);
+    text_layer_set_text_color(s_timeintext_row_05_layer, GColorRed);
+  }
+  
+  
+  text_layer_set_text(s_timeintext_row_01_layer, buffer_timeintext);
   text_layer_set_text(s_timeintext_row_02_layer, buffer_timeintext_row_02);
   text_layer_set_text(s_timeintext_row_03_layer, buffer_timeintext_row_03);
   text_layer_set_text(s_timeintext_row_04_layer, buffer_timeintext_row_04);
@@ -346,85 +474,86 @@ static void main_window_load(Window *window) {
   layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_background_layer));
   */
   
+  FONT_12 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
+  FONT_20 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_20));
+  FONT_32 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_32));
+  FONT_38 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_38));
+  FONT_44 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_44));
+  FONT_50 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_50));
+  
   // Create time TextLayer
   //s_time_layer = text_layer_create(GRect(0, 52, 139, 50));
   s_time_layer = text_layer_create(GRect(0, 0, 144, 168));
   text_layer_set_background_color(s_time_layer, GColorClear);
-  text_layer_set_text_color(s_time_layer, GColorGreen);
+  text_layer_set_text_color(s_time_layer, GColorVividCerulean);
   text_layer_set_text(s_time_layer, "00:00:00");
-  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_12));
-  text_layer_set_font(s_time_layer, s_time_font);
+  text_layer_set_font(s_time_layer, FONT_12);
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentRight);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
   // HIDE since not (yet) used
   layer_set_hidden((Layer *) s_time_layer, true);
   
   // Add TimeInText layer ROW 01 (BIG)
-  s_timeintext_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_32));
-  s_timeintext_layer = text_layer_create(GRect(0,28,144,168));
-  text_layer_set_background_color(s_timeintext_layer, GColorClear);
-  text_layer_set_text_color(s_timeintext_layer, GColorGreen);
-  text_layer_set_text(s_timeintext_layer, "ROW 01");
-  text_layer_set_font(s_timeintext_layer, s_timeintext_font);
-  text_layer_set_text_alignment(s_timeintext_layer, GTextAlignmentCenter);
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_timeintext_layer));
+  s_timeintext_row_01_layer = text_layer_create(GRect(0,4,144,168));
+  text_layer_set_background_color(s_timeintext_row_01_layer, GColorClear);
+  text_layer_set_text_color(s_timeintext_row_01_layer, GColorVividCerulean);
+  text_layer_set_text(s_timeintext_row_01_layer, "ROW 01");
+  text_layer_set_font(s_timeintext_row_01_layer, FONT_44);
+  text_layer_set_text_alignment(s_timeintext_row_01_layer, GTextAlignmentCenter);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_timeintext_row_01_layer));
   
   // Add TimeInText layer ROW 02 (SMALL)
-  s_timeintext_row_02_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_20));
-  s_timeintext_row_02_layer = text_layer_create(GRect(0,65,144,168));
+  s_timeintext_row_02_layer = text_layer_create(GRect(0,63,144,168)); 
   text_layer_set_background_color(s_timeintext_row_02_layer, GColorClear);
-  text_layer_set_text_color(s_timeintext_row_02_layer, GColorGreen);
+  text_layer_set_text_color(s_timeintext_row_02_layer, GColorVividCerulean);
   text_layer_set_text(s_timeintext_row_02_layer, "ROW 02");
-  text_layer_set_font(s_timeintext_row_02_layer, s_timeintext_row_02_font);
+  text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
   text_layer_set_text_alignment(s_timeintext_row_02_layer, GTextAlignmentCenter);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_timeintext_row_02_layer));
   
   // Add TimeInText layer ROW 03 (BIG)
-  s_timeintext_row_03_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_32));
-  s_timeintext_row_03_layer = text_layer_create(GRect(0,85,144,168));
+  s_timeintext_row_03_layer = text_layer_create(GRect(0,82,144,168));
   text_layer_set_background_color(s_timeintext_row_03_layer, GColorClear);
-  text_layer_set_text_color(s_timeintext_row_03_layer, GColorGreen);
+  text_layer_set_text_color(s_timeintext_row_03_layer, GColorVividCerulean);
   text_layer_set_text(s_timeintext_row_03_layer, "ROW 03");
-  text_layer_set_font(s_timeintext_row_03_layer, s_timeintext_row_03_font);
+  text_layer_set_font(s_timeintext_row_03_layer, FONT_44);
   text_layer_set_text_alignment(s_timeintext_row_03_layer, GTextAlignmentCenter);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_timeintext_row_03_layer));
   
   // Add TimeInText layer ROW 04 (BIG)
-  s_timeintext_row_04_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_32));
-  s_timeintext_row_04_layer = text_layer_create(GRect(0,40,144,168));
+  s_timeintext_row_04_layer = text_layer_create(GRect(0,25,144,168));
   text_layer_set_background_color(s_timeintext_row_04_layer, GColorClear);
-  text_layer_set_text_color(s_timeintext_row_04_layer, GColorGreen);
+  text_layer_set_text_color(s_timeintext_row_04_layer, GColorVividCerulean);
   text_layer_set_text(s_timeintext_row_04_layer, "ROW 04");
-  text_layer_set_font(s_timeintext_row_04_layer, s_timeintext_row_04_font);
+  text_layer_set_font(s_timeintext_row_04_layer, FONT_44);
   text_layer_set_text_alignment(s_timeintext_row_04_layer, GTextAlignmentCenter);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_timeintext_row_04_layer));
   
   // Add TimeInText layer ROW 05 (BIG)
-  s_timeintext_row_05_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_32));
-  s_timeintext_row_05_layer = text_layer_create(GRect(0,75,144,168));
+  s_timeintext_row_05_layer = text_layer_create(GRect(0,70,144,168));
   text_layer_set_background_color(s_timeintext_row_05_layer, GColorClear);
-  text_layer_set_text_color(s_timeintext_row_05_layer, GColorGreen);
+  text_layer_set_text_color(s_timeintext_row_05_layer, GColorVividCerulean);
   text_layer_set_text(s_timeintext_row_05_layer, "ROW 05");
-  text_layer_set_font(s_timeintext_row_05_layer, s_timeintext_row_05_font);
+  text_layer_set_font(s_timeintext_row_05_layer, FONT_44);
   text_layer_set_text_alignment(s_timeintext_row_05_layer, GTextAlignmentCenter);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_timeintext_row_05_layer));
   
   
   // Add bluetooth layer
-  s_bluetooth_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_12));
+  s_bluetooth_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
   s_bluetooth_layer = text_layer_create(GRect(0,0,144,168));
   text_layer_set_background_color(s_bluetooth_layer, GColorClear);
-  text_layer_set_text_color(s_bluetooth_layer, GColorGreen);
+  text_layer_set_text_color(s_bluetooth_layer, GColorVividCerulean);
   text_layer_set_text(s_bluetooth_layer, "Bleutooth");
   text_layer_set_font(s_bluetooth_layer, s_bluetooth_font);
   text_layer_set_text_alignment(s_bluetooth_layer, GTextAlignmentLeft);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_bluetooth_layer));
   
   // Add date layer
-  s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_12));
-  s_date_layer = text_layer_create(GRect(0,154,144,168));
+  s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
+  s_date_layer = text_layer_create(GRect(0,152,144,168));
   text_layer_set_background_color(s_date_layer, GColorClear);
-  text_layer_set_text_color(s_date_layer, GColorGreen);
+  text_layer_set_text_color(s_date_layer, GColorVividCerulean);
   text_layer_set_text(s_date_layer, "Date");
   text_layer_set_font(s_date_font, s_bluetooth_font);
   text_layer_set_text_alignment(s_date_layer, GTextAlignmentCenter);
@@ -432,20 +561,20 @@ static void main_window_load(Window *window) {
   
   
   // Add battery layer
-  s_battery_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_12));
-  s_battery_layer = text_layer_create(GRect(0,154,144,168));
+  s_battery_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
+  s_battery_layer = text_layer_create(GRect(0,152,144,168));
   text_layer_set_background_color(s_battery_layer, GColorClear);
-  text_layer_set_text_color(s_battery_layer, GColorGreen);
+  text_layer_set_text_color(s_battery_layer, GColorVividCerulean);
   text_layer_set_text(s_battery_layer, "Battery");
   text_layer_set_font(s_battery_font, s_bluetooth_font);
   text_layer_set_text_alignment(s_battery_layer, GTextAlignmentLeft);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_battery_layer));
   
   // Add world layer
-  s_world_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_12));
-  s_world_layer = text_layer_create(GRect(0,154,144,168));
+  s_world_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
+  s_world_layer = text_layer_create(GRect(0,152,144,168));
   text_layer_set_background_color(s_world_layer, GColorClear);
-  text_layer_set_text_color(s_world_layer, GColorGreen);
+  text_layer_set_text_color(s_world_layer, GColorVividCerulean);
   text_layer_set_text(s_world_layer, "World");
   text_layer_set_font(s_world_font, s_bluetooth_font);
   text_layer_set_text_alignment(s_world_layer, GTextAlignmentRight);
@@ -455,10 +584,10 @@ static void main_window_load(Window *window) {
   // Create temperature Layer
   s_weather_layer = text_layer_create(GRect(0, 115, 144, 25));
   text_layer_set_background_color(s_weather_layer, GColorClear);
-  text_layer_set_text_color(s_weather_layer, GColorGreen);
+  text_layer_set_text_color(s_weather_layer, GColorVividCerulean);
   text_layer_set_text_alignment(s_weather_layer, GTextAlignmentCenter);
   text_layer_set_text(s_weather_layer, "Loading...");
-  s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_12));
+  s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
   text_layer_set_font(s_weather_layer, s_weather_font);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_weather_layer));
   // HIDE since not (yet) used
@@ -488,7 +617,7 @@ static void main_window_unload(Window *window) {
   text_layer_destroy(s_time_layer);
   
   // Destroy TimeInTextLayer
-  text_layer_destroy(s_timeintext_layer);
+  text_layer_destroy(s_timeintext_row_01_layer);
   text_layer_destroy(s_timeintext_row_02_layer);
   text_layer_destroy(s_timeintext_row_03_layer);
   text_layer_destroy(s_bluetooth_layer);
@@ -575,6 +704,8 @@ static void init() {
   // Register with TickTimerService
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
   //tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
+  
+  
   
   /*
   // Register callbacks
