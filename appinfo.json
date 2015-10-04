@@ -13,6 +13,11 @@
     "resources": {
         "media": [
             {
+                "file": "fonts/DroidSans.ttf",
+                "name": "FONT_DROID_12",
+                "type": "font"
+            },
+            {
                 "file": "fonts/SourceSansPro-Black.otf",
                 "name": "FONT_MIJNE_50",
                 "type": "font"

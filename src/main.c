@@ -242,7 +242,7 @@ static void update_time() {
       strncpy(buffer_timeintext, "", 100); 
       strncpy(buffer_timeintext_row_02, "", 100);
       strncpy(buffer_timeintext_row_03, "", 100);
-      strncpy(buffer_timeintext_row_04, time_hour_word, 100);
+      strncpy(buffer_timeintext_row_04, time_hour_next_word, 100); // next word gebruiken, want is eigenlijk nog maar 2 of 1 voor
       strncpy(buffer_timeintext_row_05, "uur", 100);
       text_layer_set_font(s_timeintext_row_01_layer, FONT_44);
       text_layer_set_font(s_timeintext_row_02_layer, FONT_20);
@@ -396,6 +396,14 @@ static void update_time() {
     text_layer_set_font(s_timeintext_row_05_layer, FONT_20);
   }
   
+  // Reduce font for 'twaalf'
+  if ((time_hour == 12)) {
+    text_layer_set_font(s_timeintext_row_03_layer, FONT_44);
+    text_layer_set_font(s_timeintext_row_05_layer, FONT_44);
+  }
+
+  
+  
   if ((1 > 2)) {
     //
   } else if ((time_min == 58 || time_min == 3 || time_min == 8 || time_min == 13 || time_min == 18 || time_min == 23 || time_min == 28 || time_min == 33 || time_min == 38 || time_min == 43 || time_min == 48 || time_min == 53 )) {
@@ -474,7 +482,8 @@ static void main_window_load(Window *window) {
   layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_background_layer));
   */
   
-  FONT_12 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
+  //FONT_12 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
+  FONT_12 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_DROID_12));
   FONT_20 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_20));
   FONT_32 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_32));
   FONT_38 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_38));
@@ -540,43 +549,44 @@ static void main_window_load(Window *window) {
   
   
   // Add bluetooth layer
-  s_bluetooth_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
+  //s_bluetooth_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
   s_bluetooth_layer = text_layer_create(GRect(0,0,144,168));
   text_layer_set_background_color(s_bluetooth_layer, GColorClear);
   text_layer_set_text_color(s_bluetooth_layer, GColorVividCerulean);
   text_layer_set_text(s_bluetooth_layer, "Bleutooth");
-  text_layer_set_font(s_bluetooth_layer, s_bluetooth_font);
+  text_layer_set_font(s_bluetooth_layer, FONT_12);
   text_layer_set_text_alignment(s_bluetooth_layer, GTextAlignmentLeft);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_bluetooth_layer));
   
   // Add date layer
-  s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
+  //s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
   s_date_layer = text_layer_create(GRect(0,152,144,168));
   text_layer_set_background_color(s_date_layer, GColorClear);
   text_layer_set_text_color(s_date_layer, GColorVividCerulean);
   text_layer_set_text(s_date_layer, "Date");
-  text_layer_set_font(s_date_font, s_bluetooth_font);
+  //text_layer_set_font(s_date_font, s_bluetooth_font);
+  text_layer_set_font(s_date_layer, FONT_12);
   text_layer_set_text_alignment(s_date_layer, GTextAlignmentCenter);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_date_layer));
   
   
   // Add battery layer
-  s_battery_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
+  //s_battery_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
   s_battery_layer = text_layer_create(GRect(0,152,144,168));
   text_layer_set_background_color(s_battery_layer, GColorClear);
   text_layer_set_text_color(s_battery_layer, GColorVividCerulean);
   text_layer_set_text(s_battery_layer, "Battery");
-  text_layer_set_font(s_battery_font, s_bluetooth_font);
+  text_layer_set_font(s_battery_layer, FONT_12);
   text_layer_set_text_alignment(s_battery_layer, GTextAlignmentLeft);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_battery_layer));
   
   // Add world layer
-  s_world_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
+  //s_world_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MIJNE_12));
   s_world_layer = text_layer_create(GRect(0,152,144,168));
   text_layer_set_background_color(s_world_layer, GColorClear);
   text_layer_set_text_color(s_world_layer, GColorVividCerulean);
   text_layer_set_text(s_world_layer, "World");
-  text_layer_set_font(s_world_font, s_bluetooth_font);
+  text_layer_set_font(s_world_layer, FONT_12);
   text_layer_set_text_alignment(s_world_layer, GTextAlignmentRight);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_world_layer));
     
